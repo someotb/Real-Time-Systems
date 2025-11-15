@@ -1,7 +1,7 @@
 # Repository with laboratory work on the subject of Real-time systems
 > Group: IA-331 | 
 Student: Liubimov Kirill  
-Theory: https://gitverse.ru/aloshkarev/realtime-systems/content/master/tasks
+[Theory for laboratory works](https://gitverse.ru/aloshkarev/realtime-systems/content/master/tasks)
 
 ## Task 1:
 Задачи по организации доступа к общему ресурсу некоторого числа параллельных процессов
