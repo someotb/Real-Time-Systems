@@ -65,7 +65,7 @@ int main(void) {
         /* Абсолютный сон до t_next: устойчив к дрейфу */
         int rc;
         do {
-            rc = clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &t_next, NULL);
+            rc = clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &t_next, NULL); // TIMER_ABSTIME делает цикл привязанным к определенному, фиксированному времени
         } while (rc == EINTR);
         if (rc != 0) {
             fprintf(stderr, "clock_nanosleep failed: %s\n", strerror(rc));
