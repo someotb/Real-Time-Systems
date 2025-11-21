@@ -45,6 +45,7 @@ int main(void) {
     // TFD_CLOEXEC - хорошая практика, чтобы дескриптор не наследовался дочерними процессами.
     // timerfd предпочтительнее, когда нужно обрабатывать таймеры в рамках общего event-loop (epoll),
     // без блокировок потоков и без сигналов.
+    // timerfd - становится readable, даёт сигнал “таймер сработал”
     tfd = timerfd_create(CLOCK_MONOTONIC, TFD_CLOEXEC);
     if (tfd == -1) {
         perror("timerfd_create failed");
