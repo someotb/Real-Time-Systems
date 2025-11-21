@@ -5,7 +5,7 @@ SRC_DIR := src
 SOURCES := $(wildcard $(SRC_DIR)/*.c)
 TARGETS := $(patsubst $(SRC_DIR)/%.c,$(BIN_DIR)/%,$(SOURCES))
 
-TARGETS := $(filter-out $(BIN_DIR)/calctime1, $(TARGETS))
+# TARGETS := $(filter-out $(BIN_DIR)/calctime1, $(TARGETS))
 
 CFLAGS  := -O2 -g -Wall -Wextra -std=c11 -D_GNU_SOURCE -D_POSIX_C_SOURCE=200809L
 LDFLAGS := -pthread -lm

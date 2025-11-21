@@ -107,7 +107,7 @@ int main(void) {
 
     /* Вывести первые несколько измерений для наглядности */
     printf("\nFirst 10 samples (delta from previous actual wakeup, ns):\n");
-    for (int i = 0; i < 10 && i < NUM_SAMPLES; ++i) {
+    for (int i = 0; i < 100 && i < NUM_SAMPLES; ++i) {
         printf("  sample %d: %" PRId64 "\n", i, deltas_ns[i]);
     }
 
