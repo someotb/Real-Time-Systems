@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h> // Для clock_gettime
+#include <linux/time.h>
 
 #define BILLION 1000000000LL
 #define NumSamples 10
