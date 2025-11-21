@@ -43,6 +43,8 @@ int main(void) {
     // CLOCK_MONOTONIC - лучший выбор для таймеров, т.к. на него не влияет
     // изменение системного времени (NTP, date).
     // TFD_CLOEXEC - хорошая практика, чтобы дескриптор не наследовался дочерними процессами.
+    // timerfd предпочтительнее, когда нужно обрабатывать таймеры в рамках общего event-loop (epoll),
+    // без блокировок потоков и без сигналов.
     tfd = timerfd_create(CLOCK_MONOTONIC, TFD_CLOEXEC);
     if (tfd == -1) {
         perror("timerfd_create failed");
