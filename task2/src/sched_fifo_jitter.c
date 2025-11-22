@@ -128,4 +128,32 @@ int main(void) {
 }
 #endif
 
+/*
+Запуск без sudo:
+WARNING: sched_setscheduler failed; continuing with default scheduler: Operation not permitted
+Pinned thread to CPU 7
 
+Jitter statistics over 5000 samples (2ms period):
+  min latency: 58870 ns
+  avg latency: 252774.4 ns
+  99th percentile: 671205 ns
+  max latency: 1506326 ns
+
+Запуск с sudo:
+Switched to SCHED_FIFO priority 50
+Pinned thread to CPU 7
+
+Jitter statistics over 5000 samples (2ms period):
+  min latency: 5385 ns
+  avg latency: 187378.6 ns
+  99th percentile: 667303 ns
+  max latency: 853767 ns
+
+SCHED_FIFO — real-time планирование ставит твой поток выше всех SCHED_OTHER, уменьшает задержки из-за планировщика.
+mlockall — избегается page fault / свопинг, большие одноразовые задержки.
+pinning (affinity) — исключается миграция между CPU, сохраняется кеш/TTLB, уменьшаются латентные «всплески» из-за кэш-промахов.
+
+99th percentile - это как часто случаются редкие, но большие задержки. Пример:
+Если 5000 измерений → 99% = позиция 4950-я после сортировки.
+Вот это число и называется 99-й персентиль.
+*/
