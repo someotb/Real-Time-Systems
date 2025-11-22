@@ -26,6 +26,12 @@ int main(int argc, char *argv[]) {
     // Открыть все переданные устройства
     for (int i = 0; i < num_devices; i++) {
         const char *path = argv[i + 1];
+
+        if (access(path, R_OK) != 0) {
+            perror(path);
+            return 1;
+        }
+
         int fd = open(path, O_RDONLY | O_NONBLOCK); // O_NONBLOCK важен для poll
         if (fd < 0) {
             perror("Failed to open device");
@@ -70,3 +76,8 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
+
+/*
+* sudo ./poll_inputs /dev/input/event6 - отслеживание touchpad ноутбука
+* cat /proc/bus/input/devices - для того чтобы найти нужное устройство
+*/
