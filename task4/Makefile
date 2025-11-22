@@ -3,13 +3,18 @@ CFLAGS = -Wall -Wextra -std=c99
 
 .PHONY: all clean
 
-all: read_input poll_inputs
+BIN_DIR = bin
 
-read_input: src/read_input.c
+all: $(BIN_DIR)/read_input $(BIN_DIR)/poll_inputs
+
+$(BIN_DIR)/read_input: src/read_input.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
-poll_inputs: src/poll_inputs.c
+$(BIN_DIR)/poll_inputs: src/poll_inputs.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
+
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
 
 clean:
-	rm -f read_input poll_inputs
+	rm -rf $(BIN_DIR)/*
