@@ -3,8 +3,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <linux/input.h>
-
-// Для Задания 2:
 #include <string.h>
 #include <sys/ioctl.h>
 
@@ -16,7 +14,12 @@ int main(int argc, char *argv[]) {
 
     const char *device_path = argv[1];
 
-    // Открыть файл устройства для чтения (O_RDONLY)
+    // Проверка прав на чтение
+    if (access(device_path, R_OK) != 0) {
+        perror("No read permission for device");
+        return 1;
+    }
+
     int fd = open(device_path, O_RDONLY);
     if (fd < 0) {
         perror("Failed to open device");
@@ -28,23 +31,36 @@ int main(int argc, char *argv[]) {
     // Использовать ioctl с EVIOCGNAME для получения имени
     // Вывести имя устройства
 
+    // Получение имени устройства
+    char name[256] = "Unknown";
+    if (ioctl(fd, EVIOCGNAME(sizeof(name)), name) < 0) {
+        perror("ioctl EVIOCGNAME failed");
+    }
 
-    printf("Reading events from %s. Press Ctrl+C to exit.\n", device_path);
+    // Получение физического пути устройства
+    char phys[256] = "Unknown";
+    if (ioctl(fd, EVIOCGPHYS(sizeof(phys)), phys) < 0) {
+        perror("ioctl EVIOCGPHYS failed");
+    }
+
+    printf("Reading events from %s (%s). Press Ctrl+C to exit.\n", name, phys);
 
     struct input_event ev;
     while (1) {
         // Прочитать структуру input_event из файла устройства
-        ssize_t bytes = read(fd, &ev, sizeof(struct input_event));
-        if (bytes != sizeof(struct input_event)) {
+        ssize_t bytes = read(fd, &ev, sizeof(ev));
+        if (bytes != sizeof(ev)) {
             perror("Failed to read event");
             break;
         }
-
         // Выводим информацию о событии
         // Для более осмысленного вывода можно смотреть в linux/input-event-codes.h
         if (ev.type == EV_KEY) { // Интересуют только события клавиатуры
-             printf("Event: type %d, code %d, value %d\n", ev.type, ev.code, ev.value);
-        }
+            printf("Event: type=%d, code=%d, value=%d\n", ev.type, ev.code, ev.value);
+}
+
+}
+
     }
 
     close(fd);
