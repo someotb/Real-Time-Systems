@@ -57,9 +57,7 @@ int main(int argc, char *argv[]) {
         // Для более осмысленного вывода можно смотреть в linux/input-event-codes.h
         if (ev.type == EV_KEY) { // Интересуют только события клавиатуры
             printf("Event: type=%d, code=%d, value=%d\n", ev.type, ev.code, ev.value);
-}
-
-}
+        }
 
     }
 
